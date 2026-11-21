@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نذير | صقر الأمان</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#0b1a2e;--mut:#55657a;--line:#d5dde8;--gold:#9a6f12;--navy:#0b1a2e;--red:#c62828;--amb:#b26a00;--grn:#1b7a3d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#08111f;--card:#0f2036;--ink:#eaf0f8;--mut:#9fb0c6;--line:#22374f;--gold:#e0b050;--navy:#e0b050;--red:#ff6b6b;--amb:#ffb74d;--grn:#5fd38d}}
+:root[data-theme="dark"]{--bg:#08111f;--card:#0f2036;--ink:#eaf0f8;--mut:#9fb0c6;--line:#22374f;--gold:#e0b050;--navy:#e0b050;--red:#ff6b6b;--amb:#ffb74d;--grn:#5fd38d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Tajawal',Tahoma,sans-serif;line-height:1.7}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:2rem;margin:.2em 0 0;font-weight:800}
+.sub{color:var(--mut);margin:0 0 14px}
+.tabs{display:flex;gap:6px;margin:10px 0 14px;overflow-x:auto}
+.tabs button{flex:1;white-space:nowrap;padding:10px 12px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font:inherit;font-weight:700;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--gold);color:#fff;border-color:var(--gold)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+textarea,input{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px}
+textarea{min-height:130px;resize:vertical}
+.btn{display:inline-block;margin-top:10px;padding:11px 18px;border:0;border-radius:10px;background:var(--gold);color:#fff;font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.score{font-size:3rem;font-weight:800;line-height:1}
+.bar{height:12px;background:var(--line);border-radius:8px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;transition:width .5s}
+.hi{color:var(--red)}.md{color:var(--amb)}.lo{color:var(--grn)}
+ul{padding-inline-start:20px;margin:6px 0}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chips button{padding:6px 10px;border-radius:20px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:.85rem;cursor:pointer}
+.phone{border:2px solid var(--gold);border-radius:18px;padding:14px;background:var(--bg)}
+.row{display:flex;align-items:center;gap:8px;margin:8px 0}.row span:first-child{width:110px;font-size:.9rem}
+.row .bar{flex:1;margin:0}.small{font-size:.82rem;color:var(--mut)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<h1>🦅 نذير</h1>
+<p class="sub">من فريق صقر الأمان: نكشف الاحتيال قبل لا يوصلك</p>
+<div class="tabs" role="tablist">
+<button role="tab" aria-selected="true" data-t="a">تحليل رسالة</button>
+<button role="tab" aria-selected="false" data-t="c">دائرة الثقة</button>
+<button role="tab" aria-selected="false" data-t="p">لوحة الشرطة</button>
+</div>
+
+<section id="a">
+<div class="card">
+<label for="msg"><b>الصق الرسالة أو نص المكالمة المشبوهة</b></label>
+<textarea id="msg" placeholder="مثال: حسابك البنكي موقوف، أرسل رمز التحقق فوراً عبر الرابط"></textarea>
+<div class="chips">جرّب مثال:
+<button data-ex="0">بنك</button><button data-ex="1">جائزة</button><button data-ex="2">شرطة</button><button data-ex="3">English</button>
+</div>
+<button class="btn" id="go">حلّل الرسالة</button>
+<p class="small">التحليل يتم داخل جهازك فقط، ولا يتم إرسال أي نص لأي خادم.</p>
+</div>
+<div class="card" id="res" hidden>
+<div class="score" id="sc"></div><b id="lv"></b>
+<div class="bar"><i id="fill"></i></div>
+<b>ليش؟</b><ul id="why"></ul>
+<b>شنو تسوي الحين</b><ul id="do"></ul>
+<button class="btn" id="toC">نبّه شخصاً موثوقاً</button>
+<button class="btn alt" id="rep">أبلّغ الشرطة (مجهول)</button>
+<p class="small" id="repmsg" hidden>تم تسجيل البلاغ في لوحة الشرطة بدون أي بيانات شخصية.</p>
+</div>
+</section>
+
+<section id="c" hidden>
+<div class="card">
+<b>من الشخص الذي تثق فيه؟</b>
+<input id="nm" placeholder="الاسم (مثال: أخوي خالد)" aria-label="اسم الشخص الموثوق">
+<p class="small">إذا كانت الخطورة 60 أو أكثر، يوصل له تنبيه فوري ليوقف العملية أو يتصل فيك.</p>
+</div>
+<div class="phone" id="ph" hidden>
+<b>🔔 تنبيه من نذير إلى <span id="who"></span></b>
+<p id="alert"></p>
+<a class="btn" id="wa" target="_blank" rel="noopener">أرسل عبر واتساب</a>
+</div>
+<p id="noalert" class="small">حلّل رسالة خطيرة أولاً وبيظهر التنبيه هنا.</p>
+</section>
+
+<section id="p" hidden>
+<div class="card">
+<b>أكثر أنواع الاحتيال هالجلسة</b>
+<p class="small">بيانات تجريبية للعرض، تُضاف لها البلاغات الحقيقية من هذه الجلسة.</p>
+<div id="stats"></div>
+<b>تنبيه استباقي مقترح</b>
+<p id="pre"></p>
+</div>
+</section>
+</main>
+<script>
+var R=[
+{k:"طلب رمز سري",w:38,re:/(otp|رمز التحقق|الرمز السري|كلمة المرور|الرقم السري|cvv|\bpin\b|password)/i,t:"لا تعطي أي رمز لأي أحد، حتى لو قال إنه من البنك."},
+{k:"استعجال وضغط",w:20,re:/(فوراً|فورا|عاجل|آخر فرصة|خلال \d+ ?(ساعة|ساعات|دقيقة|دقائق)|urgent|immediately|within \d+ ?hours|last chance)/i,t:"المحتال يستعجلك عشان ما تفكر. اقفل وتأكد بنفسك."},
+{k:"تهديد بإيقاف الحساب",w:20,re:/(موقوف|إيقاف|تعليق|مجمد|مغلق|suspended|blocked|locked|frozen)/i,t:"اتصل بالبنك من الرقم المكتوب على بطاقتك فقط."},
+{k:"رابط مشبوه",w:25,re:/(https?:\/\/|www\.|bit\.ly|tinyurl|\.xyz|\.top|\.click)/i,t:"لا تفتح الرابط. الجهات الرسمية ما ترسل روابط دفع."},
+{k:"جائزة وهمية",w:28,re:/(مبروك|ربحت|فزت|جائزة|سحب|won|winner|prize|lottery)/i,t:"ما في جائزة بدون مشاركة. تجاهل الرسالة."},
+{k:"انتحال جهة رسمية",w:12,re:/(الشرطة|النيابة|الهوية الإماراتية|البنك|مصرف|اتصالات|police|emirates id|bank|etisalat)/i,t:"الجهات الرسمية ما تطلب بياناتك عبر رسالة."},
+{k:"طلب تحويل أو رسوم",w:22,re:/(حوّل|حول|تحويل|رسوم|دفع|بطاقة هدية|transfer|fee|payment|gift card)/i,t:"لا تحول أي مبلغ قبل ما تتأكد بمكالمة مباشرة."},
+{k:"طلب السرية",w:22,re:/(لا تخبر|لا تقول لأحد|سري للغاية|don.t tell|keep (this )?secret)/i,t:"طلب السرية علامة نصب. خبر شخص تثق فيه."}];
+var EX=["حسابك البنكي موقوف! أرسل رمز التحقق فوراً عبر الرابط https://bank-verify.xyz","مبروك ربحت جائزة 50,000 درهم! حول رسوم 500 درهم خلال ساعتين","هنا الشرطة، عليك قضية. لا تخبر أحداً وحول مبلغ الكفالة الحين","Your account is suspended. Send the OTP immediately at www.secure-login.top"];
+var seed={"طلب رمز سري":46,"رابط مشبوه":38,"جائزة وهمية":24,"انتحال جهة رسمية":19,"طلب تحويل أو رسوم":15};
+var $=function(i){return document.getElementById(i)},last=null,reports={};
+function show(t){["a","c","p"].forEach(function(x){$(x).hidden=x!==t});
+document.querySelectorAll(".tabs button").forEach(function(b){b.setAttribute("aria-selected",b.dataset.t===t)});if(t==="p")stats()}
+document.querySelectorAll(".tabs button").forEach(function(b){b.onclick=function(){show(b.dataset.t)}});
+document.querySelectorAll("[data-ex]").forEach(function(b){b.onclick=function(){$("msg").value=EX[b.dataset.ex]}});
+$("go").onclick=function(){
+var s=$("msg").value.trim();if(!s){$("msg").focus();return}
+var hits=R.filter(function(r){return r.re.test(s)}),n=Math.min(100,hits.reduce(function(a,r){return a+r.w},0));
+last={n:n,hits:hits,s:s};
+var c=n>=60?"hi":n>=30?"md":"lo",col=n>=60?"var(--red)":n>=30?"var(--amb)":"var(--grn)";
+$("res").hidden=false;$("sc").textContent=n+"/100";$("sc").className="score "+c;
+$("lv").textContent=n>=60?"خطير: غالباً احتيال":n>=30?"مشبوه: انتبه":"يبدو آمناً نسبياً";$("lv").className=c;
+$("fill").style.width=n+"%";$("fill").style.background=col;
+$("why").innerHTML=hits.length?hits.map(function(r){return"<li>"+r.k+"</li>"}).join(""):"<li>ما لقينا علامات احتيال واضحة</li>";
+$("do").innerHTML=hits.length?hits.map(function(r){return"<li>"+r.t+"</li>"}).join(""):"<li>مع ذلك، لا تشارك بياناتك البنكية مع أي جهة عبر رسالة.</li>";
+$("repmsg").hidden=true;$("toC").hidden=n<60;$("rep").hidden=!hits.length;
+if(n>=60)circle();$("res").scrollIntoView({behavior:"smooth"})};
+function circle(){var w=$("nm").value.trim()||"الشخص الموثوق";$("who").textContent=w;
+var m="تنبيه من نذير: وصلتني رسالة احتيال محتملة (خطورة "+last.n+"/100). أنا ما بحول ولا بعطي أي رمز. اتصل فيني إذا تبي تتأكد.";
+$("alert").textContent=m;$("wa").href="https://wa.me/?text="+encodeURIComponent(m);$("ph").hidden=false;$("noalert").hidden=true}
+$("toC").onclick=function(){circle();show("c")};
+$("nm").oninput=function(){if(last&&last.n>=60)circle()};
+$("rep").onclick=function(){last.hits.forEach(function(r){reports[r.k]=(reports[r.k]||0)+1});$("repmsg").hidden=false};
+function stats(){var d={};for(var k in seed)d[k]=seed[k]+(reports[k]||0);
+var mx=Math.max.apply(null,Object.values(d)),top="",tv=0;
+$("stats").innerHTML=Object.keys(d).sort(function(a,b){return d[b]-d[a]}).map(function(k){if(d[k]>tv){tv=d[k];top=k}
+return'<div class="row"><span>'+k+'</span><div class="bar"><i style="width:'+d[k]/mx*100+'%;background:var(--gold)"></i></div><b>'+d[k]+'</b></div>'}).join("");
+$("pre").textContent="النمط الأكثر انتشاراً: «"+top+"». يُقترح إرسال تحذير استباقي للمناطق والجاليات الأكثر استهدافاً بهذا النمط.";}
+</script>
+</body>
+</html>
