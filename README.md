@@ -40,4 +40,4 @@ No build step is needed.
 2. Open it in any browser (double-click or open from your phone).
 3. Try the example buttons, or paste your own message.
 
-**Live demo:** https://claude.ai/artifact/3eRpPXteyMj9ENnhdh3SL
+**Live demo:** https://maisaaaa.github.io/nazeer/
